@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoworks</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #video-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 600px;
+            height: 500px;
+            border: 2px solid #00bcd4;
+        }
+
+        #video-container video {
+            width: 100%;
+            height: 100%;
+        }
+
+        #automated-text-container {
+            position: fixed;
+            top: 520px;
+            left: 10px;
+            width: 580px;
+            height: 300px;
+            border: 2px solid #ccc;
+            background-color: #f1f1f1;
+            overflow-y: auto;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+
+        #log-input-container {
+            position: fixed;
+            top: 10px;
+            left: 630px;
+            width: 500px;
+            height: 500px;
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #log-input-container textarea {
+            flex-grow: 1;
+            width: 95%;
+            resize: none;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        #log-input-container button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #log-input-container button:hover {
+            background-color: #a8abc4;
+        }
+
+        #notes-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 300px;
+            height: 500px;
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #notes-search-bar input {
+            width: 95%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        #notes-log {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #fff;
+        }
+
+        #notes-log p {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #ffe0b2;
+            border: 1px solid #ffcc80;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #notes-log p strong {
+            margin-bottom: 5px;
+        }
+
+        #notes-log p button {
+            margin-top: 5px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 3px 6px;
+        }
+
+        #notes-log p button:hover {
+            background-color: #d32f2f;
+        }
+
+        #event-log-container {
+            position: fixed;
+            top: 540px;
+            right: 10px;
+            width: 300px;
+            height: 280px;
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #search-bar {
+            margin-bottom: 10px;
+        }
+
+        #search-bar input {
+            width: 95%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #event-log {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #fff;
+        }
+
+        #event-log p {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #e0f7fa;
+            border: 1px solid #b2ebf2;
+            border-radius: 4px;
+        }
+        #image-grid-container {
+            position: fixed;
+            top: 540px;
+            left: 630px;
+            width: 500px;
+            height: 281px;
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #image-grid-container img {
+            width: 120px;
+            height: 120px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        #top-left-image {
+            position: fixed;
+            top: -40px;
+            left: 10px;
+            width: 350px;
+            height: 180px;
+            z-index: 800;
+        }
+    </style>
+</head>
+<body>
+    <img id="top-left-image" src="G.I.L.B.E.R.T..png" alt="Top Left Corner Image">
+    <div id="video-container">
+        <video autoplay muted loop>
+            <source src="2019 Nautilus Expedition Highlights _ Nautilus Live.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div id="automated-text-container">
+        <!-- Automated text updates will appear here -->
+    </div>
+
+    <div id="log-input-container">
+        <input type="text" id="researcher-name" placeholder="Enter Researcher's Name" />
+        <textarea id="log-input" placeholder="Log your information here..."></textarea>
+        <button id="submit-log">Submit Log</button>
+    </div>
+
+    <div id="notes-container">
+        <div id="notes-search-bar">
+            <input type="text" id="notes-search-input" placeholder="Search notes...">
+        </div>
+        <div id="notes-log">
+        </div>
+    </div>
+
+    <div id="event-log-container">
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search events...">
+        </div>
+        <div id="event-log">
+        </div>
+    </div>
+    <div id="image-grid-container">
+        <!-- Random images will be added here -->
+    </div>
+
+    <script>
+        const automatedTextContainer = document.getElementById('automated-text-container');
+        const eventLog = document.getElementById('event-log');
+        const logInput = document.getElementById('log-input');
+        const researcherName = document.getElementById('researcher-name');
+        const submitLogButton = document.getElementById('submit-log');
+        const notesLog = document.getElementById('notes-log');
+        const notesSearchInput = document.getElementById('notes-search-input');
+        const searchInput = document.getElementById('search-input');
+
+        // Add log entries
+        submitLogButton.addEventListener('click', () => {
+            const name = researcherName.value.trim();
+            const logText = logInput.value.trim();
+            if (!name || !logText) {
+                alert('Please provide both researcher name and log information.');
+                return;
+            }
+
+            const timestamp = new Date().toLocaleString();
+            const logEntry = document.createElement('p');
+            logEntry.innerHTML = `<strong>${name}</strong><span>${timestamp}</span><div>${logText}</div> <button>Delete</button>`;
+
+            logEntry.querySelector('button').addEventListener('click', () => {
+                notesLog.removeChild(logEntry);
+            });
+
+            notesLog.appendChild(logEntry);
+            logInput.value = '';
+            researcherName.value = ''; // Clear the researcher's name
+        });
+
+        // Search functionality for notes
+        notesSearchInput.addEventListener('input', () => {
+            const query = notesSearchInput.value.toLowerCase();
+            Array.from(notesLog.children).forEach(note => {
+                const text = note.textContent.toLowerCase();
+                note.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+
+        // Search functionality for events
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            Array.from(eventLog.children).forEach(event => {
+                const text = event.textContent.toLowerCase();
+                event.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+
+        // Add automated text updates
+        function addAutomatedText(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const newMessage = document.createElement('p');
+            newMessage.textContent = `[${timestamp}] ${message}`;
+            automatedTextContainer.appendChild(newMessage);
+            automatedTextContainer.scrollTop = automatedTextContainer.scrollHeight;
+
+            // Check for species-related messages and log them
+            if (message.toLowerCase().includes('species')) {
+                addEventLog(message, true);
+            }
+            if(message.toLowerCase().includes('anomaly')){
+                addEventLog(message, false);
+            }
+        }
+
+        // Add an event log entry
+function addEventLog(message, isSpecies, isUnknownAnomaly = false) {
+    const newEvent = document.createElement('p');
+    newEvent.textContent = message;
+
+    if (isSpecies) {
+        const greenCheck = document.createElement('span');
+        greenCheck.textContent = '✔';
+        greenCheck.style.color = 'green';
+        greenCheck.style.marginLeft = '10px';
+        greenCheck.style.fontWeight = 'bold';
+        newEvent.appendChild(greenCheck);
+    }
+
+    if (isUnknownAnomaly) {
+        const redX = document.createElement('span');
+        redX.textContent = '✔';
+        redX.style.color = 'red';
+        redX.style.marginLeft = '10px';
+        redX.style.fontWeight = 'bold';
+        newEvent.appendChild(redX);
+    }
+
+    eventLog.appendChild(newEvent);
+    eventLog.scrollTop = eventLog.scrollHeight;
+}
+
+
+        // Simulate automated text updates
+        setInterval(() => {
+            const messages = [
+                'Analyzing video feed...',
+                'Tracking movements...',
+                'Logging data...',
+                'Species identified: Shark',
+                'Species identified: Octopus',
+                'Species identified: Eel', 
+                'Anomaly found. Assumption: Bone Structure',
+            ];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            addAutomatedText(randomMessage);
+        }, 5000);
+
+        const imageGridContainer = document.getElementById('image-grid-container');
+
+        // Array of image URLs
+        const imageUrls = [
+            'Screenshot 2024-12-20 at 12.25.40 PM.png',
+            'Screenshot 2024-12-20 at 12.55.23 PM.png',
+            'Screenshot 2024-12-20 at 12.56.17 PM.png',
+            'Screenshot 2024-12-20 at 12.57.36 PM.png',
+            'Screenshot 2024-12-20 at 12.59.12 PM.png',
+            'Screenshot 2024-12-20 at 1.28.29 PM.png',
+            'Screenshot 2024-12-20 at 1.39.10 PM.png',
+            'Screenshot 2024-12-20 at 8.48.02 PM.png', 
+            'Screenshot 2024-12-20 at 8.49.17 PM.png', 
+            'Screenshot 2024-12-20 at 8.49.58 PM.png'
+
+        ];
+
+        const displayedImages = new Set();
+
+        // Function to add a random image
+        function addRandomImage() {
+            let randomIndex;
+            let imgSrc;
+
+            // Find a unique image not currently displayed
+            do {
+                randomIndex = Math.floor(Math.random() * imageUrls.length);
+                imgSrc = imageUrls[randomIndex];
+            } while (displayedImages.has(imgSrc));
+
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            imageGridContainer.appendChild(img);
+            displayedImages.add(imgSrc);
+
+            // Remove images to limit the total number in the grid
+            if (imageGridContainer.children.length > 20) {
+                const removedImg = imageGridContainer.firstChild;
+                displayedImages.delete(removedImg.src);
+                imageGridContainer.removeChild(removedImg);
+            }
+        }
+
+        function addImagesWithDelay() {
+            const intervalId = setInterval(() => {
+                if (displayedImages.size >= imageUrls.length) {
+                    clearInterval(intervalId);
+                } else {
+                    addRandomImage();
+                }
+            }, 3000);
+        }
+
+        addImagesWithDelay();
+    </script>
+</body>
+</html>
